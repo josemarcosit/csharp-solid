@@ -27,6 +27,12 @@ class Order{
    void Update(Order order){...}
 }
 __
+class Program {
+     var order = new Order();
+     decimal totalPayment = order.CalculateTotal();
+     order.ProcessPayment(totalPayment);
+     order.SendEmail(order.CustomerEmail);
+}
 Order: 1 - Status: Pending
 Order: 1 - ProcessPayment: 121.14  
 Order: 1 - Status: PaymentReceived 
@@ -50,6 +56,15 @@ class Email{
    void SendEmail(int orderId, string email){...}
 }
 __
+class Program{
+     var order = new Order();
+     decimal payment = order.CalculateTotal();
+     if (Payment.ProcessPayment(payment))
+     {
+            order.Status = OrderStatus.PaymentReceived;            
+            Email.SendEmail(order.Id, order.CustomerEmail);
+     }
+}
 Order: 2 - Status: Pending
 Payment: Process 121.14
 Order: 2 - Status: PaymentReceived
@@ -77,6 +92,12 @@ enum PaymentType{
    Card   
 }
 __
+class Program {
+   var order = new Order(...,PaymentType.Cash);
+   var total = order.CalculateTotal();
+   var cardPayment = new Payment();
+   if (cardPayment.ProcessPayment(total)){...}
+}
 Customer: Ed - Order: 2 - Status: Pending
 Payment: Cash - CalculateTotal()
 Payment: Process 121.14
@@ -109,6 +130,18 @@ enum PaymentType{
    Card   
 }
 __
+class Program {
+   var cashPayment = new CashPayment();
+   var orderBia = new Order(...,cashPayment);
+   var total = orderBia.CalculateTotal();   
+   if (cashPayment.ProcessPayment(total)){...}
+    
+   var cardPayment = new CardPayment();
+   var orderEd = new Order(...,cardPayment);
+   var totalOrderEd = orderEd.CalculateTotal();   
+   if (cardPayment.ProcessPayment(total)){...}
+}
+
 Customer: Bia - Order: 1 - Status: Pending
 Payment: Process 121.14
 Customer: Bia - Order: 1 - Status: PaymentReceived - Total: 121.14
@@ -138,6 +171,17 @@ class ToyTruck : Truck{
    override void Refuel(int amount) {...} //throw new InvalidOperationException("ToyTruck does not need to refuel");
 }
 __
+class Program {
+   var truck = new Truck(RefuelType.Gasoline);
+   truck.Start();
+   truck.Refuel(2);
+   truck.Stop();    
+    
+   var toyTruck = new ToyTruck(RefuelType.None);
+   truck.Start();
+   toyTruck.Refuel(3); //InvalidOperationException("ToyTruck does not need to refuel")
+   toyTruck.Run();  
+}
 Truck needs to refuel
 Truck is running: 1     
 ToyTruck needs to refuel
@@ -168,6 +212,17 @@ class EletronicToyTruck : ToyTruck{
    override void Run() {...}
 }
 __
+class Program {
+   var truck = new Truck(RefuelType.Gasoline);
+   truck.Start();   
+   truck.Refuel(2);   
+   truck.Stop();
+
+   var eletronicToyTruck = new EletronicToyTruck();
+   eletronicToyTruck.Start();
+   eletronicToyTruck.Run();
+   eletronicToyTruck.Stop();
+}
 Truck started: Gasoline
 Truck needs to refuel       
 Truck is running: 1
@@ -201,6 +256,17 @@ class Product : ITransaction{
    void SendEmail() => throw new NotSupportedException("Product does not send e-mail");
 }
 __
+class Program {
+   var supplier = new Supplier();
+   supplier.Validate();
+   supplier.Save();
+   supplier.SendEmail();
+
+   var product = new Product();
+   product.Validate();
+   product.Save();
+   product.SendEmail(); //throw new NotSupportedException("Product does not send e-mail");
+}
 Supplier: Validate
 Supplier: Save
 Supplier: SendEmail
@@ -234,6 +300,17 @@ class Supplier : ITransaction, ISendEmail
    void SendEmail(){...}
 }
 __
+class Program {
+   var supplier = new Supplier();
+   supplier.Validate();
+   supplier.Save();
+   supplier.SendEmail();
+
+   var product = new Product();
+   product.Validate();
+   product.Save();
+}
+
 Supplier: Validate
 Supplier: Save     
 Supplier: SendEmail
@@ -257,6 +334,12 @@ class Customer{
    void SendEmail(){...}
 }
 __
+class Program {
+   var emailSender = new EmailSender();
+   var customer = new Customer(..., emailSender);
+   customer.Save();
+   customer.SendEmail();
+}
 Customer: Save
 EmailSender: E-mail sent: bia@solid.com - Customer - Test
 ```
@@ -276,6 +359,13 @@ class Customer{
    Customer(IEmailSender emailSender){...}
    void Save() {...}
    void SendEmail(){...}
+}
+__
+class Program {
+   IEmailSender emailSender = new SmtpSender();
+   var customer = new Customer(..., emailSender);
+   customer.Save();
+   customer.SendEmail();  
 }
 Customer saved
 EmailSender: E-mail sent: bia@solid.com - Customer - Test
