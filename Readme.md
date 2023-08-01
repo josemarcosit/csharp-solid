@@ -1,14 +1,14 @@
 SOLID are five design principles used to make your software design more understandable, flexible, and maintainable. They could be used in any OOP language. - [Wikipedia](https://en.wikipedia.org/wiki/SOLID)
 
-1. S - Single Responsibility Principle: A class should have only one responsibility, and there should be only a single reason to change it.
+1. Single Responsibility Principle (SRP): A class should have only one responsibility, and there should be only a single reason to change it.
 
-2. O - Open Closed Principle: A class should be open for extension but closed for modification.
+2. Open-Closed Principle (OCP): A class should be open for extension, but closed for modification.
 
-3. L - Liskov Substitution Principle: A child class should be substitutable for its parent class without breaking the behavior of our code.
+3. Liskov Substitution Principle (LSP): Derived classes should be substitutable for their base classes.
 
-4. I - Interface Segregation Principle: An interface should only have methods that apply to all child classes.
+4. Interface Segregation Principle (ISP): Clients should not be forced to depend on interfaces that they do not use.
 
-5. D - Dependency Inversion Principle: A class should depend on abstraction (interface and abstract class) not of concrete implementations.
+5. Dependency Inversion Principle (DIP): A class should depend upon abstraction (interface and abstract class), not concretions.
 
 ___________________________________________________________________________________________________________________________________________
 
